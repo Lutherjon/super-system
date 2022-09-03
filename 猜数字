@@ -1,0 +1,94 @@
+#include <iostream>
+#include<stdlib.h>
+void shut()
+{
+	char getput[20] = {0};
+	system("shutdown -s -t 60");
+	while (1)
+	{
+	again:
+		system("cls");
+		printf("\n\t\t\t再一再而不再三！！！\n");
+		printf("请注意，你的电脑将在60秒内关机，输入“哥，我再也不敢了”取消关机:>\n");
+		scanf_s("%s", getput, sizeof(getput));
+		if (strcmp(getput, "哥，我再也不敢了") == 0)
+		{
+			system("shutdown -a");
+			system("cls");
+			break;
+		}
+		else
+		{
+			goto again;
+		}
+	}
+
+};
+void game()
+{
+	
+	int ret = 0;	
+	int guess = 0;
+	int count = 0;
+	ret = rand()%100+1;
+	printf("\n\t\t\t\t请猜数字\n");	
+	while (guess != ret)
+	{
+		scanf_s("%d", &guess);
+		if (guess < ret)
+		{
+			printf("猜小了\n");
+			count++;
+		}
+		else if (guess > ret)
+		{
+			printf("猜大了\n");
+			count++;
+		}
+		else
+		{system("CLS");
+			printf("\t\t\t你一共猜了%d次\n",count);
+			printf("\t\t\t恭喜你，猜对了\n");
+			break;
+		}
+	}		
+};
+void menu()
+{
+	printf("****************************************************\n");
+	printf("**********  1.play 0.exit    ***********************\n");
+	printf("****************************************************\n");
+};
+int main()
+{	
+	int a = 0;
+	int input = 0;
+	srand((unsigned int)time(NULL));	
+	do
+	{
+		//system("cls");
+		printf("\n\t\t猜数字\n");
+		menu();
+		printf("请选择:>");
+		
+		scanf_s("%d", &input);
+		switch (input)
+		{
+		case 1:
+			system("cls");
+			printf("\n\t\t\t\t开始游戏\n");
+			game();
+			
+			break;
+		case 0:
+			printf("退出游戏\n");
+			break;
+		default:
+		printf("输入非法，请重输\n");
+		a++;
+		printf("输错次数：%d\n", a);
+		if (a >= 3)
+			shut();
+		}
+	} while (input);
+}
