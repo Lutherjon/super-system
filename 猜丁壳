@@ -1,0 +1,147 @@
+#include <iostream>
+#include<windows.h>
+void mune()
+{
+    printf("\n\t\t\t猜丁壳\n");
+    printf("***************************\n");
+    printf("*******   1. play   *******\n");
+    printf("*******   0. exit   *******\n");
+    printf("***************************\n");
+}
+void mune2()
+{
+    system("cls");
+    printf("\n\t\t\t开始游戏!\n");
+    printf("请选择:>\n"); 
+    printf("******* 1.一局一胜 *******\n");
+    printf("******* 2.三局两胜 *******\n");
+    printf("******* 3.五局三胜 *******\n");
+    printf("******* 4.七局四胜 *******\n");
+    printf("******* 5.九局五胜 *******\n");
+}
+void init()
+{
+   
+    for (int i = 3; i > 0; i--)
+    { 
+       system("cls");
+        printf("\n\t%d\n\n", i);
+        Sleep(1000);
+    }
+    system("cls");
+    printf("\t\tAction!");
+}
+int  play()
+{  
+    //玩家出
+    int i = 0;
+    printf(" 1.石头 2.剪刀 3.布 \n");
+    again:
+    printf("请选择:>");
+    scanf_s("%d", &i);
+        switch (i)
+        {
+        case 1:
+            printf("石头\n");
+            break;
+        case 2:
+            printf("剪刀\n");
+            break;
+        case 3:
+            printf("布\n");
+            break;
+        default:
+            printf("输入非法,请重输\n");
+              goto again;
+            break;
+        }
+    
+    //电脑出
+    int ret = rand() % 3 + 1;
+    printf(" 电脑出：\n  ");
+    switch (ret)
+    {
+    case 1:
+        printf("石头\n");
+        break;
+    case 2 :
+        printf("剪刀\n");
+        break;
+    case 3:
+        printf("布\n");
+        break;
+    }
+  
+    if (i  < ret)
+    {
+        if (i  != 1)
+            return 1;
+        else if (i  == 1 && ret == 3)
+            return 2;
+    }
+    else if (i  == ret)
+        return 0 ;
+    else
+    {
+        if (ret != 1)
+            return 2;
+        else if (ret == 1 && i == 3)
+            return 1;
+    }
+}
+void  guass(int i)
+{
+    int a = i;
+    int b = i;
+    int ans = 0;
+    while (a&&b)
+    {
+        Sleep(1000);
+        system("cls");
+        printf("\n请出拳\n");
+       int j= play();
+       ans++;
+       if (j == 1)//play
+           a--;
+       else if (j == 2)//computer
+           b--;
+    }
+    if (a == 0 && b != 0)
+        printf("\n玩家赢\n\t\t\t共进行了%d次", ans);
+if (a != 0 && b == 0)
+        printf("\n电脑赢\n\t\t\t共进行了%d次", ans);
+}
+void game()
+{
+    int i = 0;
+    srand((unsigned int)time(NULL));
+    mune2();  
+    scanf_s("%d", &i);
+   // Sleep(10000);
+    init();
+    guass(i);
+   
+
+}
+int main()
+{
+    int input = 0;
+    //srand();
+    do 
+    {
+        mune();
+        printf("请选择:>");
+        scanf_s("%d", &input);
+        switch (input)
+        {
+        case 1:
+            game();
+            break; 
+        case 0:
+            break;
+        default:
+            printf("输入非法,请重输\n");
+            break;
+        }
+    } while (input);
+}
