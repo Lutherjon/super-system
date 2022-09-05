@@ -4,7 +4,7 @@
 #define ROW 9
 #define COL 9
 #define easy_mine 10
-void display(char board[ROWS][COLS], int row, int col)
+void display(char board[ROWS][COLS], int row, int col)//打印棋盘，传什么打印什么
 {
     int i = 0;
     int j = 0;
@@ -25,7 +25,7 @@ void display(char board[ROWS][COLS], int row, int col)
         printf("\n");
     }
 }
-int count_mine(char mine[ROWS][COLS], int i, int j)
+int count_mine(char mine[ROWS][COLS], int i, int j)//数包括自己在内的九个格子的雷数
 {
     int a = 0;
     int b = 0;
@@ -35,12 +35,12 @@ int count_mine(char mine[ROWS][COLS], int i, int j)
         for (b = j - 1; b <= j  + 1; b++)
         {
             if(a> 0 && b > 0 && a < ROW + 1 && b < COL + 1)
-            count =mine[a][b] - '0'+count;
+            count =mine[a][b] - '0'+count;//'1'-'0'=1;
         }
     }
     return count;
 }
-void expendboard(char mine[ROWS][COLS], char show[ROWS][COLS], int i, int j)
+void expendboard(char mine[ROWS][COLS], char show[ROWS][COLS], int i, int j)//进行空白展开
 {
     int a = 0;
     int b = 0;
@@ -52,14 +52,14 @@ void expendboard(char mine[ROWS][COLS], char show[ROWS][COLS], int i, int j)
         {
             for (b = j - 1; b <= j + 1; b++)
             {
-                if (a >0 && b>0&&a<ROW+1&&b<COL+1 &&show[a][b]=='?'&&mine[a][b]!='1')
-                    expendboard(mine, show, a, b);
+                if (a >0 && b>0&&a<ROW+1&&b<COL+1 &&show[a][b]=='?'&&(mine[a][b]!='1'||show[a][b]=='*'))
+                    expendboard(mine, show, a, b);//递归：连续展开
             }
         }
     }
     else
     {
-        show[i][j] = count + '0';   
+        show[i][j] = count + '0';   //显示雷数
         //for (a = i - 1; a <= i + 1; a++)
         //{
         //    for (b = j - 1; b <= j + 1; b++)
@@ -70,14 +70,14 @@ void expendboard(char mine[ROWS][COLS], char show[ROWS][COLS], int i, int j)
         //}
     }
 }
-int search_mine(char mine[ROWS][COLS], char show[ROWS][COLS], int row, int col)
+int search_mine(char mine[ROWS][COLS], char show[ROWS][COLS], int row, int col)//排雷
 {
     int i = 0;
     int j = 0;
     int win = 0;
     int input = 0;
     int mark = 0;
-    while (win <easy_mine)
+    while (win <easy_mine)//标记临界值
     {
         printf("********************\n");
         printf("******* 1.标记 *****\n");
@@ -96,7 +96,9 @@ int search_mine(char mine[ROWS][COLS], char show[ROWS][COLS], int row, int col)
                 mark++;
                 if (mine[i][j] == '1')
                     win++;
-                display(show, ROW, COL);
+                system("cls");//清除上一步
+                printf("\n\t\t\t已标记:%d\n", win);//显示标记个数
+                display(show, ROW, COL);              
             }
             else if (mark > 10)
                 printf("标记已满，请取消\n");
@@ -104,7 +106,7 @@ int search_mine(char mine[ROWS][COLS], char show[ROWS][COLS], int row, int col)
             {
                 show[i][j] = '?';
                 mark--;
-                if (mine[i][j] == '1')
+                if (mine[i][j] == '1')//正确的雷
                     win--;
                 display(show, ROW, COL);
             }
@@ -117,6 +119,7 @@ int search_mine(char mine[ROWS][COLS], char show[ROWS][COLS], int row, int col)
                 if (show[i][j] == '?' && mine[i][j] == '0')
                 {
                     expendboard(mine, show, i, j);
+                    system("cls");//清除上一步
                     display(show, ROW, COL);
                     break;
                 }
@@ -128,7 +131,7 @@ int search_mine(char mine[ROWS][COLS], char show[ROWS][COLS], int row, int col)
                     display(mine, ROW, COL);
                     break;
                 }
-                else if (show[i][j] = '?')
+                else if (show[i][j] != '?')
                     printf("坐标非法，请重输\n");
             }
             break;
@@ -143,13 +146,14 @@ int search_mine(char mine[ROWS][COLS], char show[ROWS][COLS], int row, int col)
         if (win == easy_mine)
         {
             system("cls");
+            display(show, ROW, COL);//展示成果
             printf("排雷成功\n");
             break;
         }
     }
     return 1;
 }
-void setmine(char board[ROWS][COLS], int row, int col)
+void setmine(char board[ROWS][COLS], int row, int col)//埋雷
 {
     int count = easy_mine;
     while(count>0)
@@ -166,7 +170,7 @@ void setmine(char board[ROWS][COLS], int row, int col)
         count--;
     }
 }
-void initboard(char board[ROWS][COLS], int row, int col,char set)
+void initboard(char board[ROWS][COLS], int row, int col,char set)//初始化show棋盘和mine棋盘，set，传什么打印什么
 {
     int i = 0;
     int j = 0;
@@ -180,10 +184,10 @@ void initboard(char board[ROWS][COLS], int row, int col,char set)
 }
 void game()
 {
-    char board1[ROWS][COLS] = { 0 };
+        char board1[ROWS][COLS] = { 0 };
         char board2[ROWS][COLS] = { 0 };
-        initboard(board1, ROW, COL, '0');
-        initboard(board2, ROW, COL, '?');
+        initboard(board1, ROW, COL, '0');//mine
+        initboard(board2, ROW, COL, '?');//show
         display(board2, ROW, COL);   
         setmine(board1, ROW, COL);
        // display(board1, ROW, COL);//用于debug
@@ -229,6 +233,6 @@ void text()
 }
 int main()
 {
-    srand((unsigned int)time(NULL));
+    srand((unsigned int)time(NULL));//设置由时间设立的随机数种子
     text();
 }
