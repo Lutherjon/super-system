@@ -1,5 +1,7 @@
 #include <iostream>
 #include<windows.h>
+#include <cassert>
+const char* ch[4] = { " ","石头", "剪刀","布"};
 void mune()
 {
     printf("\n\t\t\t猜丁壳\n");
@@ -32,63 +34,39 @@ void init()
     printf("\t\tAction!");
 }
 int  play()
-{  
+{
     //玩家出
     int i = 0;
     printf(" 1.石头 2.剪刀 3.布 \n");
-    again:
     printf("请选择:>");
     scanf_s("%d", &i);
-        switch (i)
-        {
-        case 1:
-            printf("石头\n");
-            break;
-        case 2:
-            printf("剪刀\n");
-            break;
-        case 3:
-            printf("布\n");
-            break;
-        default:
-            printf("输入非法,请重输\n");
-              goto again;
-            break;
-        }
-    
-    //电脑出
-    int ret = rand() % 3 + 1;
-    printf(" 电脑出：\n  ");
-    switch (ret)
-    {
-    case 1:
-        printf("石头\n");
-        break;
-    case 2 :
-        printf("剪刀\n");
-        break;
-    case 3:
-        printf("布\n");
-        break;
-    }
-  
-    if (i  < ret)
-    {
-        if (i  != 1)
-            return 1;
-        else if (i  == 1 && ret == 3)
-            return 2;
-    }
-    else if (i  == ret)
-        return 0 ;
-    else
-    {
-        if (ret != 1)
-            return 2;
-        else if (ret == 1 && i == 3)
-            return 1;
-    }
-}
+    assert(i > 0 && i <= 3);
+    printf("%s\n\n", ch[i]);
+       //电脑出
+       int ret = rand() % 3 + 1;
+      printf("电脑出:\n  ");
+      printf("%s\n", ch[ret]);
+          if (i < ret)
+          {
+              if (i != 1)
+                  return 1;
+              else if (i == 1 && ret == 3)
+                  return 2;
+              return 1;
+          }
+          else if (i == ret)
+          {
+              return 0;
+          }
+       else
+       {
+           if (ret != 1)
+               return 2;
+           else if (ret == 1 && i == 3)
+               return 1;
+           return 2;
+       }
+   }
 void  guass(int i)
 {
     int a = i;
@@ -97,7 +75,7 @@ void  guass(int i)
     while (a&&b)
     {
         Sleep(1000);
-        system("cls");
+       // system("cls");
         printf("\n请出拳\n");
        int j= play();
        ans++;
@@ -105,6 +83,10 @@ void  guass(int i)
            a--;
        else if (j == 2)//computer
            b--;
+       if (j != 0)
+           printf("\n玩家:电脑=%d:%d\n", 5 - a, 5 - b);
+       else
+           printf("\n 平局 \n");
     }
     if (a == 0 && b != 0)
         printf("\n玩家赢\n\t\t\t共进行了%d次", ans);
@@ -117,6 +99,7 @@ void game()
     srand((unsigned int)time(NULL));
     mune2();  
     scanf_s("%d", &i);
+    assert(i > 0 && i <= 5);
    // Sleep(10000);
     init();
     guass(i);
@@ -132,6 +115,7 @@ int main()
         mune();
         printf("请选择:>");
         scanf_s("%d", &input);
+        assert(input == 0 || input == 1);
         switch (input)
         {
         case 1:
