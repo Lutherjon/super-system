@@ -10,7 +10,7 @@ void shut()
 		system("cls");
 		printf("\n\t\t\t再一再而不再三！！！\n");
 		printf("请注意，你的电脑将在60秒内关机，输入“哥，我再也不敢了”取消关机:>\n");
-		scanf_s("%s", getput, sizeof(getput));
+		scanf_s("%s", getput, (unsigned int)sizeof(getput));
 		if (strcmp(getput, "哥，我再也不敢了") == 0)
 		{
 			system("shutdown -a");
@@ -23,7 +23,7 @@ void shut()
 		}
 	}
 
-};
+}
 void game()
 {
 	
