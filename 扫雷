@@ -1,28 +1,31 @@
 #include <iostream>
+#include<windows.h>
+#include <synchapi.h>
 #define ROWS 11
 #define COLS 11
 #define ROW 9
 #define COL 9
 #define easy_mine 10
+int record = 0;
 void display(char board[ROWS][COLS], int row, int col)//打印棋盘，传什么打印什么
 {
     int i = 0;
     int j = 0;
     for (j = 0; j < col + 1; j++)
     {
-        printf("  %d", j);
+        printf("   %d", j);
     }
     printf("\n");
     printf("\n");
     for (i = 1; i < row + 1; i++)
     {
-        printf("  %d", i);
+        printf("   %d", i);
         for (j = 1; j < col + 1; j++)
         {
-            printf("  %c", board[i][j]);
+            printf("   %c", board[i][j]);
         }
         printf("\n");
-        printf("\n");
+        printf("\n\n");
     }
 }
 int count_mine(char mine[ROWS][COLS], int i, int j)//数包括自己在内的九个格子的雷数
@@ -74,10 +77,10 @@ int search_mine(char mine[ROWS][COLS], char show[ROWS][COLS], int row, int col)/
 {
     int i = 0;
     int j = 0;
-  static  int win = 0;
+    int win = 0;
     int input = 0;
     int mark = 0;
-  static  int step = 0;
+    int step = 0;
     while (win <easy_mine)//标记临界值
     {
         printf("********************\n");
@@ -117,11 +120,12 @@ int search_mine(char mine[ROWS][COLS], char show[ROWS][COLS], int row, int col)/
         case 2:
             while (1)
             {
+                step++;
                 printf("选择要查看的地块坐标:>");
                 scanf_s("%d %d",& i, &j);
                 if (step == 1 && show[i][j] == '?' && mine[i][j] == '1')
                 {
-                    mine[i][j] = 0;
+                    mine[i][j] = '0';
                     while (1)
                     {
                         int a = rand() % 9 + 1;
@@ -135,7 +139,6 @@ int search_mine(char mine[ROWS][COLS], char show[ROWS][COLS], int row, int col)/
                 }
                 if (show[i][j] == '?' && mine[i][j] == '0')
                 {
-                    step++;
                     expendboard(mine, show, i, j);
                     system("cls");//清除上一步
                     display(show, ROW, COL);
@@ -163,12 +166,15 @@ int search_mine(char mine[ROWS][COLS], char show[ROWS][COLS], int row, int col)/
         }
         if(mine[i][j]=='1'&&input==2)
         break;
-        if (win == easy_mine)
+        if (win == easy_mine||step==col*row-easy_mine)
         {
             system("cls");
             display(show, ROW, COL);//展示成果
             printf("排雷成功\n");
             printf("\n\t\t\t排雷步数:%d\n", step);//步数
+            if ((record != 0 && record > step) || record == 0)
+                record = step;
+            system("pause");
             break;
         }
     }
@@ -211,7 +217,7 @@ void game()
         initboard(board2, ROW, COL, '?');//show
         display(board2, ROW, COL);   
         setmine(board1, ROW, COL);
-       // display(board1, ROW, COL);//用于debug
+        //display(board1, ROW, COL);//用于debug
         while (1)
         {           
             int p = search_mine(board1, board2, ROW, COL);
@@ -230,8 +236,9 @@ void text()
 {
     int input = 0;
     do
-    
-    {printf("扫雷\n");     
+    {
+        printf("\n\t\t\t扫雷\n");    
+        printf("\t\t\t\t\t最好记录:%d\n",record);
         menu();
         printf("请选择:>");
         scanf_s("%d", &input);
@@ -241,6 +248,8 @@ void text()
         case 1:
             printf("游戏开始\n");
             game();
+            Sleep(1000);
+            system("cls");
             break;
         case 0:
             printf("退出游戏\n");
