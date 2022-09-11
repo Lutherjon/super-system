@@ -74,19 +74,23 @@ int search_mine(char mine[ROWS][COLS], char show[ROWS][COLS], int row, int col)/
 {
     int i = 0;
     int j = 0;
-    int win = 0;
+  static  int win = 0;
     int input = 0;
     int mark = 0;
+  static  int step = 0;
     while (win <easy_mine)//标记临界值
     {
         printf("********************\n");
         printf("******* 1.标记 *****\n");
         printf("******* 2.查看 *****\n");
-        printf("********************\n");
+        printf("********************\n"); 
+        printf("\n\t\t\t\t\t已标记:%d\n", win);//显示标记个数
+        printf("\n\t\t\t\t\t排雷步数:%d\n", step);//步数
         printf("请选择:>");
-        scanf_s("%d", &input);
+        scanf_s("%d", &input);        
         switch (input)
         {
+          
         case 1:
             printf("选择要标记的地块坐标（再次标记后取消）:>");
             scanf_s("%d %d", &i, &j);
@@ -96,8 +100,7 @@ int search_mine(char mine[ROWS][COLS], char show[ROWS][COLS], int row, int col)/
                 mark++;
                 if (mine[i][j] == '1')
                     win++;
-                system("cls");//清除上一步
-                printf("\n\t\t\t已标记:%d\n", win);//显示标记个数
+                system("cls");//清除上一步              
                 display(show, ROW, COL);              
             }
             else if (mark > 10)
@@ -116,8 +119,23 @@ int search_mine(char mine[ROWS][COLS], char show[ROWS][COLS], int row, int col)/
             {
                 printf("选择要查看的地块坐标:>");
                 scanf_s("%d %d",& i, &j);
+                if (step == 1 && show[i][j] == '?' && mine[i][j] == '1')
+                {
+                    mine[i][j] = 0;
+                    while (1)
+                    {
+                        int a = rand() % 9 + 1;
+                        int b = rand() % 9 + 1;
+                        if ((a != i || b != j) && mine[a][b] == '0')
+                        {
+                            mine[a][b] = '1';
+                            break;
+                        }
+                    }
+                }
                 if (show[i][j] == '?' && mine[i][j] == '0')
                 {
+                    step++;
                     expendboard(mine, show, i, j);
                     system("cls");//清除上一步
                     display(show, ROW, COL);
@@ -125,10 +143,12 @@ int search_mine(char mine[ROWS][COLS], char show[ROWS][COLS], int row, int col)/
                 }
                 else if (show[i][j] == '?' && mine[i][j] == '1')
                 {
+                    step++;
                     system("cls");
                     printf("很遗憾，你被炸死了\n");
                     printf("雷阵如下\n");
                     display(mine, ROW, COL);
+                    printf("\n\t\t\t排雷步数:%d\n", step);//步数
                     break;
                 }
                 else if (show[i][j] != '?')
@@ -148,6 +168,7 @@ int search_mine(char mine[ROWS][COLS], char show[ROWS][COLS], int row, int col)/
             system("cls");
             display(show, ROW, COL);//展示成果
             printf("排雷成功\n");
+            printf("\n\t\t\t排雷步数:%d\n", step);//步数
             break;
         }
     }
@@ -233,6 +254,6 @@ void text()
 }
 int main()
 {
-    srand((unsigned int)time(NULL));//设置由时间设立的随机数种子
+    srand((unsigned int)time(NULL));//设置由时间设置的随机数种子
     text();
 }
