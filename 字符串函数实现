@@ -59,6 +59,8 @@ int my_stricmp(const char * dest, char* src)
 }
 char* my_strstr(char* dest,const char* src)
 {
+        if(*src=='\0')
+        return dest;
 	while (*dest)
 	{
 		int count=0;
