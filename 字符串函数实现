@@ -23,13 +23,11 @@ char* my_strcat(char* dest, const char* src)
 char* my_strncat(char* dest, char* src,int num)
 {
 	char* dest_ = dest;
-	char ch[101];
-	for (int i = 0; i < num; i++)
-		ch[i] = *src++;
 	while (*dest++);//移动指针至'\0'后
 	dest--;//移至'\0'
-	for (int i = 0; i < num; i++)
-		*dest++ = ch[i];
+        while(count--)
+        if(!(*dest++ = *src++))
+        return dest_;
 	*dest = '\0';
 	return dest_;
 }
