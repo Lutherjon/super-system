@@ -1,0 +1,18 @@
+#include<stdio.h>
+int fact(int n)
+{
+int i,ans=1;
+for(i=2;i<n;i++)
+ans*=i;
+return ans;
+}
+int main()
+{
+   int n;double e=0;
+scanf("%d",&n);
+for(int i= 1;i<n;i++)
+e+=1.0/fact(i);
+printf("%l.15f",e);
+    return 0;
+}
+    
