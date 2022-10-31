@@ -1,0 +1,54 @@
+#include<iostream>
+using namespace std;
+int a[105][105];
+void f(int n)
+{
+    int x = (n + 1) / 2;
+    int i = 0, j = 0, t = 0, m;
+    for (m = 0; m < x; m++)
+    {
+        i = t, j = t;
+      // cout << i << j << "----" << endl;;
+        for (; j < n; j++)
+        {
+            a[i][j] = m+1;
+        }
+        j--;
+        for (; i < n; i++)
+        {
+            a[i][j] = m+1;
+        }
+        i--;
+        for (; j >= t; j--)
+        {
+            a[i][j] = m+1;
+        }
+        j++;
+        for (; i >= t; i--)
+        {
+            a[i][j] = m+1;
+        }
+        i++;
+        t++, n--;
+    }
+}
+int main()
+{
+    int n;
+    while(1)
+   {
+       cin >> n;
+       if(n==0)
+       break;
+    f(n);
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++)
+        {
+            cout << a[i][j] << " ";
+            //Sleep(10);
+        }
+        cout << endl;
+    }
+    cout << endl;   
+   }
+}
