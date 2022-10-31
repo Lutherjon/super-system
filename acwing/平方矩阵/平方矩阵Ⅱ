@@ -1,0 +1,42 @@
+#include<iostream>
+using namespace std;
+int a[105][105];
+void f(int n)
+{
+    int x,i,j,t=0,m=n;
+
+    while(m--)
+    {    
+          i=j=t;
+          x=1;
+    for(j=t;j<n-t;j++,x++)
+    a[i][j]=x;
+    j--;x--;
+    for(i=t;i<n-t;i++,x--)   
+    a[i][j]=x;
+    i--;x++;
+    for(;j>=t;j--,x++)
+    a[i][j]=x;
+    j++;x--;
+    for(;i>=t;i--,x--)
+    a[i][j]=x;
+    t++;
+   }
+}
+int main()
+{
+    int n;
+    while(1)
+    {
+        cin>>n;
+        if(n==0)
+        break;
+        f(n);
+        for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++)
+       { cout<<a[i][j]<<" ";}
+         cout<<endl;
+        }
+         cout<<endl;
+    }
+}
