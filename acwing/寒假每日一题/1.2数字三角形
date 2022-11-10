@@ -27,29 +27,29 @@
 30
 #include<iostream>
 using namespace std;
-int a[505][505],b[505];
-const int INF=1e9;
+int a[505][505],b[505][505];
 int main()
 {
-    int n,ans=-INF;
+    int n,ans=0;
     cin>>n;
-    
+
     for(int i=1;i<=n;i++)
     for(int j=1;j<=i;j++)
     cin>>a[i][j];
-    
-    for(int j=0;j<=n+1;j++) 
-    b[j]=-INF;
-    
-    b[1]=a[1][1];
-    
-    for(int i=2;i<=n;i++)
-    for(int j=i;j>=1;j--)
-    b[j]=max(b[j],b[j-1])+a[i][j];
-    
-    for(int i=1;i<=n;i++)
-    ans=max(ans,b[i]);
-    
+
+    for(int j=1;j<=n;j++)
+    b[n][j]=a[n][j];
+
+    for(int i=n;i>=1;i--)
+    for(int j=1;j<=i;j++)
+    b[i][j]=max(b[i+1][j],b[i+1][j+1])+a[i][j];
+
+    ans=b[1][1];
+
     cout<<ans<<endl;
-    
 }
+
+作者：带着点诗意走吧
+链接：https://www.acwing.com/activity/content/code/content/4728765/
+来源：AcWing
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
