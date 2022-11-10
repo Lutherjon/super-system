@@ -18,6 +18,7 @@
 2.50
 样例解释
 第一根和第三根分别裁剪出一根 2.50 长度的绳子，第二根剪成 2 根 2.50 长度的绳子，刚好 4 根。
+
 #include<iostream>
 using namespace std;
 double a[100005];
@@ -51,3 +52,8 @@ int main()
     cout.flags(cout.fixed);
     cout<<l<<endl;
 }
+
+作者：带着点诗意走吧
+链接：https://www.acwing.com/activity/content/code/content/4736396/
+来源：AcWing
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
