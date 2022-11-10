@@ -1,0 +1,109 @@
+伊娃喜欢从整个宇宙中收集硬币。
+
+有一天，她去了一家宇宙购物中心购物，结账时可以使用各种硬币付款。
+
+但是，有一个特殊的付款要求：每张帐单，她只能使用恰好两个硬币来准确的支付消费金额。
+
+给定她拥有的所有硬币的面额，请你帮她确定对于给定的金额，她是否可以找到两个硬币来支付。
+
+输入格式
+第一行包含两个整数 N 和 M，分别表示硬币数量以及需要支付的金额。
+
+第二行包含 N 个整数，表示每个硬币的面额。
+
+输出格式
+输出一行，包含两个整数 V1,V2，表示所选的两个硬币的面额，使得 V1≤V2 并且 V1+V2=M。
+
+如果答案不唯一，则输出 V1 最小的解。
+
+如果无解，则输出 No Solution。
+
+数据范围
+1≤N≤105,
+1≤M≤1000
+输入样例1：
+8 15
+1 2 8 7 2 4 11 15
+输出样例1：
+4 11
+输入样例2：
+7 14
+1 8 7 2 4 11 15
+输出样例2：
+No Solution
+#include<iostream>
+using namespace std;
+int n,m,a[100005];
+void qsort(int l,int r)
+{
+    if(l>=r)return ;
+    int i=l-1,j=r+1,k=a[(l+r)>>1];
+    while(i<j)
+    {
+        do i++;while(a[i]<k);
+        do j--;while(a[j]>k);
+        if(i<j)
+        swap(a[i],a[j]);
+    }
+    qsort(l,j);qsort(j+1,r);
+}
+int main()
+{
+    cin>>n>>m;
+    for(int i=0;i<n;i++)
+    cin>>a[i];
+    qsort(0,n-1);
+    int l=0,r=n-1;
+    for(int l=0;l<n-1;l++)
+    {
+        while(a[l]+a[r]>m)//尽管减
+        r--;
+
+        if(a[l]+a[r]==m&&l<r)//保证了l<r
+        {cout<<a[l]<<" "<<a[r];return 0;}
+    }
+    cout<<"No Solution";
+    return 0;
+}
+**********************************************************************************
+#include<iostream>
+using namespace std;
+int n,m,a[100005];
+void qsort(int l,int r)
+{
+    if(l>=r)return ;
+    int i=l-1,j=r+1,k=a[(l+r)>>1];
+    while(i<j)
+    {
+        do i++;while(a[i]<k);
+        do j--;while(a[j]>k);
+        if(i<j)
+        swap(a[i],a[j]);
+    }
+    qsort(l,j);qsort(j+1,r);
+}
+int main()
+{
+    cin>>n>>m;
+    for(int i=0;i<n;i++)
+    cin>>a[i];
+    qsort(0,n-1);
+    int l=0,r=n-1;
+    while(l<r)
+    {
+        if(a[l]+a[r]==m)
+        {cout<<a[l]<<" "<<a[r];return 0;}
+        else if(a[l]+a[r]>m)
+        r--;
+        else
+        l++;
+    }
+    if(l==r)
+    cout<<"No Solution";
+    return 0;
+}
+
+作者：带着点诗意走吧
+链接：https://www.acwing.com/activity/content/code/content/4740711/
+来源：AcWing
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
