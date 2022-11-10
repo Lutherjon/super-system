@@ -46,7 +46,7 @@ bool check(int sleng)
        //cnt+=(a[i]<=b[i]?a[i]:b[i])/sleng*(a[i]>=b[i]?a[i]:b[i]);
        //cnt+=(a[i]<=b[i]?a[i]:b[i])*(a[i]>=b[i]?a[i]:b[i])/sleng;
     //cnt+=a[i]/sleng*b[i]/sleng;
-    cnt+=(a[i]/sleng)*(b[i]/sleng);//长边和短边
+    cnt+=(a[i]/sleng)*(b[i]/sleng);
     if(cnt>=k)
     return true;
    }
@@ -57,7 +57,7 @@ int main()
  cin>>n>>k;
  for(int i=0;i<n;i++)
  cin>>a[i]>>b[i];
- 
+
  int l=1,r=1e5;
  while(l<r)
  {
@@ -70,4 +70,9 @@ int main()
  }
  cout<<r<<endl;
 }
+
+作者：带着点诗意走吧
+链接：https://www.acwing.com/activity/content/code/content/4736625/
+来源：AcWing
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 ```
