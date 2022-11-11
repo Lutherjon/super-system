@@ -87,8 +87,7 @@ vector<int >mul(vector<int >A, vector<int> B)
 	}
 	for (int i = 0; i < A.size(); i++)
 	{
-		t = A[i];
-		t *= b;
+		t += A[i]*b;
 		C.push_back(t % 10);
 		t /= 10;
 	}
@@ -140,7 +139,6 @@ vector<int > div(vector<int >A, vector<int> B)
 	}
 	return C;
 }
-
 void Div(string a, string b)
 {
 	vector<int >A, B, C;
@@ -170,18 +168,56 @@ void calculation(string a, string b,char c)
 	case '/':	Div(a, b);
 		break;
 	default:
-		printf("请重输");
+		printf("请重输\n");
 		break;
 	}
 }
-/*int main()
+void fact(string a)
+{
+	vector<int >A, B, C,tmp;
+	for (int i = a.size() - 1; i >= 0; i--)
+	{
+		tmp.push_back(a[i] - '0');
+	}
+
+	long long n = 0;
+	for (int i = 0; i < tmp.size(); i++)
+	{
+		n += my_pow(tmp[i], i);
+	}
+	//cout << n;
+	B.push_back(1);
+	A.push_back(1);
+	for (int i = 1; i <= n; i++)
+	{
+		B[0] = i;
+		C = mul(A, B);
+		for (int j = 0; j < A.size(); j++)
+			A[j] = C[j];
+		for (int j = A.size(); j < C.size(); j++)
+			A.push_back(C[j]);
+	}
+	cout << a << "!= ";
+	for (int i = A.size() - 1; i >= 0; i--)
+		cout << A[i];
+}
+**************************************************************
+int main()
 {
 	string a, b;
 	char c;		
 	printf("请输入:\n");
 	while (1)
 	{
-		cin >> a >> c >> b;
-		calculation(a, b, c);
-	}
-}*/
+		cin >> a >> c;
+		if(c=='!')		
+        fact(a);
+
+		else
+		{
+			cin >> b;
+			calculation(a, b, c);
+		}
+	}	
+}
+
