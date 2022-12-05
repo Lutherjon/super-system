@@ -1,0 +1,45 @@
+#include<iostream>
+using namespace std;
+const int N=15;
+int n;
+
+bool col[N],dg[2*N],udg[2*N];
+int path[N],ans;
+
+void dfs(int x)
+{
+    if(x>n)//叶节点
+    {
+        ans++;
+        if(ans<=3)//字典序前三
+        {
+            for(int i=1;i<=n;i++)
+            cout<<path[i]<<' ';
+            cout<<endl;
+        }
+    }
+    for(int i=1;i<=n;i++)//从第一行开搜
+    {
+
+        if(!col[i]&&!dg[x+i]&&!udg[x-i+n])
+        {
+        path[x]=i;//第几层/第几行
+        col[i]=dg[x+i]=udg[x-i+n]=true;//标记枝子
+        dfs(x+1);
+        col[i]=dg[x+i]=udg[x-i+n]=false;
+        }
+    }
+
+}
+int main()
+{
+ cin>>n;
+ dfs(1);
+ cout<<ans<<endl;
+ return 0;
+}
+
+作者：sheppard
+链接：https://www.acwing.com/activity/content/code/content/4741828/
+来源：AcWing
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
